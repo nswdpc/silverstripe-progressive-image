@@ -1,0 +1,27 @@
+{
+  "name": "nswdpc/silverstripe-progressive-image",
+  "description": "A progressive image loader for Silverstripe 4",
+  "type": "silverstripe-vendormodule",
+  "keywords": [
+    "silverstripe",
+    "images",
+    "perf",
+    "performance",
+    "speed",
+    "waypoints"
+  ],
+  "homepage": "",
+  "license": "BSD-3-Clause",
+  "authors": [{
+    "name": "James Ellis"
+  }],
+  "require": {
+    "silverstripe/framework": "~4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^3 || ^4 || ^5"
+  },
+  "extra": {
+    "installer-name": "silverstripe-progressive-image"
+  }
+}
