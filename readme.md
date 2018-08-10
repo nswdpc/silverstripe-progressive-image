@@ -12,10 +12,10 @@ Include ```ProgressiveImageScript``` in the page ```<head>```:
 
 ### Templates
 
-```templates\Includes\ProgressiveImageScript.ss``` will include ```ProgressiveImageStyle```
+```templates\Includes\ProgressiveImageLoaderScript.ss``` will include ```ProgressiveImageLoaderStyle```
 to provide some nice transitions for loading images. You can provide your own in a theme if required.
 
-Waypoints 4.0.x (non jQuery/Zepto version) is included in ```ProgressiveImageScript.ss```. This is done to remove an HTTP request on an asset. You can provide your own Waypoints if required in a theme, we will update this as upstream release new versions.
+Waypoints 4.0.x (non jQuery/Zepto version) is included in ```ProgressiveImageLoaderScript.ss```. This is done to remove an HTTP request on an asset. You can provide your own Waypoints if required in a theme, we will update this as upstream release new versions.
 
 ### Images in a template
 Using CroppedImage as an example, where you wish to use progressive image loading, add the following

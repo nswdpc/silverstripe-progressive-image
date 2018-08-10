@@ -1,3 +1,6 @@
 ---
 Name: silverstripe-progressive-image
 ---
+Silverstripe\Assets\Image:
+  extensions:
+    - 'NSWDPC\ProgressiveImage\ProgressiveImageExtension'
