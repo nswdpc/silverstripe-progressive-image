@@ -3,7 +3,7 @@ namespace NSWDPC\ProgressiveImage;
 use Silverstripe\Assets\Image;
 use Silverstripe\Core\Config\Config;
 use Silverstripe\Core\Extension;
-use SilverStripe\Assets\Storage\DBFile;
+use SilverStripe\View\ViewableData;
 use SilverStripe\ORM\FieldType\DBField;
 
 /**
@@ -63,12 +63,12 @@ class ProgressiveImageExtension extends Extension {
 
 	/**
 	 * Returns the tag used to load the image, with container and padding block
-	 * @param DBFile $image
+	 * @param ViewableData $image
 	 * @param int $width
 	 * @param int $height
-	 * @param DBFile $tiny a version of $image that is tiny
+	 * @param ViewableData $tiny a version of $image that is tiny
 	 */
-	private function AsTag(DBFile $image, $width, $height, DBFile $tiny) {
+	private function AsTag(ViewableData $image, $width, $height, ViewableData $tiny) {
 		$final_url = $image->getURL();
 		if($height >  0 && $width > 0) {
 			$padding_value = round(($height / $width) * 100, 2);
