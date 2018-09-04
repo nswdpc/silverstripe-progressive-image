@@ -98,6 +98,10 @@ class ProgressiveImageExtension extends Extension {
 		$quality = $this->setQuality($quality);
 		$image = $this->owner->ScaleWidth($width);
 		$this->resetQuality($quality);
+		$backend = $this->getBackend();
+		if(method_exists($backend, 'ResetFilters')) {
+			$backend->ResetFilters();
+		}
 		if($as_tag) {
 			// Rendering as a tag.. create the tiny version
 			$tiny_width = round($width / 10);
@@ -122,6 +126,10 @@ class ProgressiveImageExtension extends Extension {
 		$quality = $this->setQuality($quality);
 		$image = $this->owner->Fill($width, $height);
 		$this->resetQuality($quality);
+		$backend = $this->getBackend();
+		if(method_exists($backend, 'ResetFilters')) {
+			$backend->ResetFilters();
+		}
 		if($as_tag) {
 			// Rendering as a tag.. create the tiny version
 			$tiny_height = round($height / 10);
