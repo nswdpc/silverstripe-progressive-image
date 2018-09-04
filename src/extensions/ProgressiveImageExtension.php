@@ -96,9 +96,7 @@ class ProgressiveImageExtension extends Extension {
 	 */
 	public function ProgressiveScaleWidth($width, $quality = 80, $as_tag = true) {
 		$quality = $this->setQuality($quality);
-		$image = $this->owner->isWidth($width) && !Config::inst()->get(Image::class, 'force_resample')
-			? $this
-			: $this->owner->ScaleWidth($width);
+		$image = $this->owner->ScaleWidth($width);
 		$this->resetQuality($quality);
 		if($as_tag) {
 			// Rendering as a tag.. create the tiny version
@@ -122,9 +120,7 @@ class ProgressiveImageExtension extends Extension {
 	 */
 	public function ProgressiveFill($width, $height, $quality = 80, $as_tag = true) {
 		$quality = $this->setQuality($quality);
-		$image = $this->owner->isSize($width, $height) && !Config::inst()->get(Image::class, 'force_resample')
-			? $this
-			: $this->owner->Fill($width, $height);
+		$image = $this->owner->Fill($width, $height);
 		$this->resetQuality($quality);
 		if($as_tag) {
 			// Rendering as a tag.. create the tiny version
