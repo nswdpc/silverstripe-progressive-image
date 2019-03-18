@@ -9,7 +9,6 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		opacity: 0;
 		transition: opacity 0.2s linear;
 	}
 
