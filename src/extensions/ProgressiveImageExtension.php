@@ -14,7 +14,7 @@ class ProgressiveImageExtension extends Extension {
 
 	private $default_quality = 80;// store default for reset post image processing
 
-	private $_cache_filter_style = '';
+	private $_cache_filter_style = null;
 
 	/**
 	 * Returns the current image backend
@@ -67,14 +67,10 @@ class ProgressiveImageExtension extends Extension {
 	 * Get a filter style applied to the tiny URL image
 	 */
 	private function getFilterStyle() {
-		if($this->_cache_filter_style) {
+		if(!is_null($this->_cache_filter_style)) {
 			return $this->_cache_filter_style;
 		}
-		$filter_style = $this->owner->config()->get('pil_filter_style');
-		if(!$filter_style) {
-			$filter_style = 'filter:blur(5px)';
-		}
-		$this->_cache_filter_style = $filter_style;
+		$this->_cache_filter_style = $this->owner->config()->get('pil_filter_style');
 		return $this->_cache_filter_style;
 	}
 

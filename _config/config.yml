@@ -2,5 +2,6 @@
 Name: silverstripe-progressive-image
 ---
 Silverstripe\Assets\Image:
+  pil_filter_style: 'filter:blur(5px)'
   extensions:
     - 'NSWDPC\ProgressiveImage\ProgressiveImageExtension'
