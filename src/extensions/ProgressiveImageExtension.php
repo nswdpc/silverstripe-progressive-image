@@ -126,7 +126,7 @@ class ProgressiveImageExtension extends Extension
         }
         $this->resetQuality($quality);
         if ($as_tag) {
-            // Rendering as a tag.. create the tiny version
+            // Rendering as a tag... create the tiny version
             $tiny_width = round($width / 10);
             $tiny_quality = 1;
             $tiny = $this->ProgressiveScaleWidth($tiny_width, $tiny_quality, false);
@@ -155,11 +155,43 @@ class ProgressiveImageExtension extends Extension
         }
         $this->resetQuality($quality);
         if ($as_tag) {
-            // Rendering as a tag.. create the tiny version
+            // Rendering as a tag... create the tiny version
             $tiny_height = round($height / 10);
             $tiny_width = round($width / 10);
             $tiny_quality = 1;
             $tiny = $this->ProgressiveFill($tiny_width, $tiny_height, $tiny_quality, false);
+
+            $tag = $this->AsTag($image, $width, $height, $tiny);
+            return $tag;
+        } else {
+            return $image;
+        }
+    }
+
+    /**
+     * Fit image to specified dimensions and fill leftover space with a solid colour (default white)
+     * @param int $width
+     * @param int $height
+     * @param string $backgroundColor
+     * @param int $transparencyPercent
+     * @param int $quality quality of larger image
+     * @param boolean $as_tag
+     */
+    public function ProgressivePad($width, $height, $backgroundColor = 'FFFFFF', $transparencyPercent = 0, $quality = 80, $as_tag = true)
+    {
+        $quality = $this->setQuality($quality);
+        $image = $this->owner->Pad($width, $height, $backgroundColor, $transparencyPercent);
+        $backend = $this->getBackend();
+        if (method_exists($backend, 'ResetFilters')) {
+            $backend->ResetFilters();
+        }
+        $this->resetQuality($quality);
+        if ($as_tag) {
+            // Rendering as a tag... create the tiny version
+            $tiny_height = round($height / 10);
+            $tiny_width = round($width / 10);
+            $tiny_quality = 1;
+            $tiny = $this->ProgressivePad($tiny_width, $tiny_height, $backgroundColor, $transparencyPercent, $tiny_quality, false);
 
             $tag = $this->AsTag($image, $width, $height, $tiny);
             return $tag;

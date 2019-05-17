@@ -6,22 +6,22 @@ This module does progressive image loading, based partly on Medium image loading
 
 ## Usage
 
-Include ```ProgressiveImageScript``` in the page ```<head>```:
+Include ```ProgressiveImageLoaderScript``` in the page ```<head>```:
 
 ```
-<% include ProgressiveImageScript %>
+<% include ProgressiveImageLoaderScript %>
 ```
 
 > Supports SilverStripe 4.x
 
 ### Images in a template
-Using the Fill method as an example, add the following where you wish to use progressive image loading:
+Using the Fill method as an example, add the following where you wish to use progressive image loading, the third parameter being the desired quality level to be passed to the Image backend: 
 ```
 $Image.ProgressiveFill(420,280,80)
 ```
 In place of
 ```
-$Image.ProgressiveFill(420,280)
+$Image.Fill(420,280)
 ```
 
 ### Templates
@@ -40,7 +40,7 @@ When the page loads, the tiny, low quality image will display by default, once t
 
 ## Notes
 
-Only ScaleWidth and Fill image thumbnailing is supported at the moment.
+Only ScaleWidth, Fill and Pad image thumbnailing is supported at the moment.
 
 ## Thanks
 
