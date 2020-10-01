@@ -25,6 +25,8 @@ class ProgressiveImageExtension extends Extension
 
     private $_cache_filter_style = null;
 
+    private static $requirements_completed = false;
+
     /**
      * Returns the current image backend
      */
@@ -128,37 +130,53 @@ class ProgressiveImageExtension extends Extension
         return $field;
     }
 
+    public static function getHashAlgo() {
+        return "sha256";
+    }
+
+    public static function getIntegrityHash($contents) {
+        $hash = self::getHashAlgo();
+        return "{$hash}-" . base64_encode( hash($hash, $contents, true) );
+    }
+
     /**
      * Load requirements via the Requirements API
      * @return void
      */
     public function loadProgressiveImageRequirements() {
-        $hash = "sha512";
+
+        if(self::$requirements_completed) {
+            return;
+        }
 
         $css = self::get_progressive_image_style();
-        $css_content = 'data:text/css;base64,' . base64_encode($css);
-        $css_integrity = "{$hash}-" . base64_encode( hash($hash, $css_content) );
+        $css_base64 = base64_encode($css);
+        $css_uri = 'data:text/css;charset=utf-8;base64,' . $css_base64;
+        $css_integrity = self::getIntegrityHash($css);
 
         $script = self::get_progressive_image_script();
-        $script_content = 'data:text/javascript;base64,' . base64_encode($script);
-        $script_integrity = "{$hash}-" . base64_encode( hash($hash, $script_content) );
+        $script_base64 = base64_encode($script);
+        $script_uri = 'data:application/javascript;charset=utf-8;base64,' . base64_encode($script);
+        $script_integrity = self::getIntegrityHash($script);
 
         Requirements::css(
-            $css_content,
+            $css_uri,
             'screen',
             [
                 'integrity' => $css_integrity,
-                'crossorigin' => 'anonynmous'
+                'crossorigin' => 'anonymous'
             ]
         );
 
         Requirements::javascript(
-            $script_content,
+            $script_uri,
             [
                 'integrity' => $script_integrity,
-                'crossorigin' => 'anonynmous'
+                'crossorigin' => 'anonymous'
             ]
         );
+
+        self::$requirements_completed = true;
 
     }
 

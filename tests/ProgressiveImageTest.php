@@ -60,9 +60,9 @@ class ProgressiveImageTest extends SapphireTest
         $js = $backend->getJavascript();
         $css = $backend->getCSS();
 
-        // expected sha512 hashes
-        $expected_hash_js = "sha512-ZWQxNTZhNTZjMGZhYTE2MmI3YzcyMmYxYTBhMmNmMjljMTU0NDM1ZDQxNDdmYjk3NjA1ZjQ3OTc1ZTMwOWEyYzc3ZTNiOWY4MjM5NmQxZmRlNGUxNzdjMWQyMzJlMWY5NDFmMmZjMWVmNmFlMjdlZmY2MWZiZTQ1YmU1MjZjZmU=";
-        $expected_hash_css  = "sha512-MjViZDRkYWY2NjQyNTAyYzQ3NTZmMDcxYTdkMjIzNjNkZjI0OGRiMmNkMWYyODhhMTRmNmUxOTkxMTg2OGIzZTJkNzA2MmY5ZDZlM2ZjOGVmZWY0NWQ4NzRkNTM4YjcyYTM4ODJjYmU5NTdhMTJhYTBkZjhkODIwZjNjMDJiNzE=";
+        // expected sha256 hashes
+        $expected_hash_js = "sha256-8VDCn/f0G2aDnEbz+Wo0b33V44if0WaKA1EOwnDG0tM=";
+        $expected_hash_css  = "sha256-WrXqmkKGIbIcuZIbIkCqHwMooOXuNf6c1ImeMSYW/B4=";
 
         $item = current($js);
         $this->assertEquals($expected_hash_js, $item['integrity'], "Script integrity mismatch");
