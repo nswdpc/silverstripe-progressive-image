@@ -9,12 +9,15 @@ use SilverStripe\View\Requirements;
 use SilverStripe\View\TemplateGlobalProvider;
 
 /**
- * Loads Progressive Image requirements via Requirements API
+ * @deprecated see ProgressiveImageExtension::loadProgressiveImageRequirements
  * @author James
  */
 class ProgressiveImageControllerExtension extends Extension implements TemplateGlobalProvider
 {
 
+    /**
+     * @deprecated see ProgressiveImageExtension::loadProgressiveImageRequirements
+     */
     public static function get_template_global_variables()
     {
         return [
@@ -23,30 +26,18 @@ class ProgressiveImageControllerExtension extends Extension implements TemplateG
         ];
     }
 
+    /**
+     * @deprecated see ProgressiveImageExtension::loadProgressiveImageRequirements
+     */
     public static function get_progressive_image_style() {
-        return ArrayData::create()->renderWith('NSWDPC/ProgressiveImage/Style');
+        return ProgressiveImageExtension::get_progressive_image_style();
     }
 
+    /**
+     * @deprecated see ProgressiveImageExtension::loadProgressiveImageRequirements
+     */
     public static function get_progressive_image_script() {
-        return ArrayData::create()->renderWith('NSWDPC/ProgressiveImage/Script');
-    }
-
-    public function onAfterInit()
-    {
-        $this->owner->loadProgressiveImageRequirements();
-    }
-
-    public function loadProgressiveImageRequirements() {
-        $script = self::get_progressive_image_script()->forTemplate();
-        $css = self::get_progressive_image_style()->forTemplate();
-        Requirements::customCSS(
-            $css,
-            'progressive-image-style' // unique id
-        );
-        Requirements::customScript(
-            $script,
-            'progressive-image-script'
-        );
+        return ProgressiveImageExtension::get_progressive_image_script();
     }
 
 }

@@ -1,0 +1,16 @@
+SilverStripe\Assets\Folder:
+  folder1:
+    Name: folder
+SilverStripe\Assets\Image:
+  image1:
+    Title: gratisography-tiny-man
+    FileFilename: folder/gratisography-tiny-man.jpg
+    FileHash: 991e1939a6d2d392248d8bf3d142b41d3aebce22
+    Parent: =>SilverStripe\Assets\Folder.folder1
+    Name: gratisography-tiny-man.jpg
+  image2:
+    Title: gratisography-couple-portrait
+    FileFilename: folder/gratisography-couple-portrait.jpg
+    FileHash: 17b3fe1db3d1eacd81699acb97e4a624ab8123d5
+    Parent: =>SilverStripe\Assets\Folder.folder1
+    Name: gratisography-couple-portrait.jpg
