@@ -18,12 +18,12 @@ use SilverStripe\View\Requirements;
  */
 class ProgressiveImageTest extends SapphireTest
 {
-
     protected $usesDatabase = true;
 
     protected static $fixture_file = 'ProgressiveImageTest.yml';
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         TestAssetStore::activate('data');
         $images = Image::get()->exclude(['ClassName' =>[ Folder::class ] ]);
@@ -34,8 +34,8 @@ class ProgressiveImageTest extends SapphireTest
         }
     }
 
-    public function testCreateThumb() {
-
+    public function testCreateThumb()
+    {
         $image = $this->objFromFixture(Image::class, 'image1');
 
         $this->assertTrue($image instanceof Image, "Image is not the correct type");
@@ -52,9 +52,9 @@ class ProgressiveImageTest extends SapphireTest
         $scale_width_final = $image->ScaleWidth(100);
         $scale_width_final_link = $scale_width_final->Link();
 
-        $this->assertTrue( strpos($fill, "data-final=\"{$fill_final_link}\"") !== false, "Final Link not in image ProgressiveFill tag" );
-        $this->assertTrue( strpos($pad, "data-final=\"{$pad_final_link}\"") !== false, "Final Link not in image ProgressivePad tag" );
-        $this->assertTrue( strpos($scale_width, "data-final=\"{$scale_width_final_link}\"") !== false, "Final Link not in image ProgressiveScaleWidth tag" );
+        $this->assertTrue(strpos($fill, "data-final=\"{$fill_final_link}\"") !== false, "Final Link not in image ProgressiveFill tag");
+        $this->assertTrue(strpos($pad, "data-final=\"{$pad_final_link}\"") !== false, "Final Link not in image ProgressivePad tag");
+        $this->assertTrue(strpos($scale_width, "data-final=\"{$scale_width_final_link}\"") !== false, "Final Link not in image ProgressiveScaleWidth tag");
 
         $backend = Requirements::backend();
         $js = $backend->getJavascript();
@@ -69,8 +69,5 @@ class ProgressiveImageTest extends SapphireTest
 
         $item = current($css);
         $this->assertEquals($expected_hash_css, $item['integrity'], "CSS integrity mismatch");
-
-
     }
-
 }

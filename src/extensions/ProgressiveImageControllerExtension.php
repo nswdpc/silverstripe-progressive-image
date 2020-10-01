@@ -29,15 +29,16 @@ class ProgressiveImageControllerExtension extends Extension implements TemplateG
     /**
      * @deprecated see ProgressiveImageExtension::loadProgressiveImageRequirements
      */
-    public static function get_progressive_image_style() {
+    public static function get_progressive_image_style()
+    {
         return ProgressiveImageExtension::get_progressive_image_style();
     }
 
     /**
      * @deprecated see ProgressiveImageExtension::loadProgressiveImageRequirements
      */
-    public static function get_progressive_image_script() {
+    public static function get_progressive_image_script()
+    {
         return ProgressiveImageExtension::get_progressive_image_script();
     }
-
 }

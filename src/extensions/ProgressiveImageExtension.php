@@ -1,4 +1,5 @@
 <?php
+
 namespace NSWDPC\ProgressiveImage;
 
 use Silverstripe\Assets\Image;
@@ -100,7 +101,7 @@ class ProgressiveImageExtension extends Extension
      */
     public function getProgressiveTag(ViewableData $image, $width = null, $height = null, ViewableData $tiny)
     {
-        if(!$width && !$height) {
+        if (!$width && !$height) {
             return null;
         }
 
@@ -130,22 +131,24 @@ class ProgressiveImageExtension extends Extension
         return $field;
     }
 
-    public static function getHashAlgo() {
+    public static function getHashAlgo()
+    {
         return "sha256";
     }
 
-    public static function getIntegrityHash($contents) {
+    public static function getIntegrityHash($contents)
+    {
         $hash = self::getHashAlgo();
-        return "{$hash}-" . base64_encode( hash($hash, $contents, true) );
+        return "{$hash}-" . base64_encode(hash($hash, $contents, true));
     }
 
     /**
      * Load requirements via the Requirements API
      * @return void
      */
-    public function loadProgressiveImageRequirements() {
-
-        if(self::$requirements_completed) {
+    public function loadProgressiveImageRequirements()
+    {
+        if (self::$requirements_completed) {
             return;
         }
 
@@ -177,13 +180,13 @@ class ProgressiveImageExtension extends Extension
         );
 
         self::$requirements_completed = true;
-
     }
 
     /**
      * Return custom CSS
      */
-    public static function get_progressive_image_style() {
+    public static function get_progressive_image_style()
+    {
         $content = trim(ArrayData::create()->renderWith('NSWDPC/ProgressiveImage/Style')->forTemplate());
         return $content;
     }
@@ -191,7 +194,8 @@ class ProgressiveImageExtension extends Extension
     /**
      * Return custom JS
      */
-    public static function get_progressive_image_script() {
+    public static function get_progressive_image_script()
+    {
         $content = trim(ArrayData::create()->renderWith('NSWDPC/ProgressiveImage/Script')->forTemplate());
         return $content;
     }
@@ -276,7 +280,8 @@ class ProgressiveImageExtension extends Extension
             $tiny_width = round($width / 10);
             $tiny_quality = 1;
             $tiny = $this->ProgressivePad($tiny_width, $tiny_height, $backgroundColor, $transparencyPercent, $tiny_quality, false);
-            return $this->getProgressiveTag($image, $width, $height, $tiny);;
+            return $this->getProgressiveTag($image, $width, $height, $tiny);
+            ;
         } else {
             return $image;
         }
