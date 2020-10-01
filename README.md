@@ -6,13 +6,11 @@ This module does progressive image loading, based partly on Medium image loading
 
 ## Usage
 
-`ProgressiveImageControllerExtension` adds inline JS and CSS requirements automatically via the Silverstripe Requirements API.
-
 Call the thumbnail rendering methods directly within your template:
 
 ```ss
 <% with $Image %>
-$ProgressiveFill(420,280,80)
+$ProgressiveFill(420,280,90)
 <% end_with %>
 ```
 
@@ -23,17 +21,16 @@ $Fill(420,280)
 <% end_with %>
 ```
 
-Use an Include in your template:
+## Requirements
 
-```ss
-<% include ProgressiveImage PaddingValue='100', TinyURL=$ImageThumb, FinalURL=$ImageThumb, AlternateText='' %>
-```
+When one of the `$Progressive*` methods is called, Requirements will automatically be added via the Requirements API, these are loaded via data: uris with SRI hashes supplied
 
 ### Templates
 
 ```
 NSWDPC
   ProgressiveImage
+    ProgressiveImage.ss -> template containing HTML loading the image
     Script.ss -> provides the JS to handle image replacement
     Style.ss -> provides CSS to assist with image replacement
 ```
@@ -41,6 +38,7 @@ NSWDPC
 ## How it works
 
 A thumbnail with 10% of the width/height of the requested size and a quality of 1 will be created. This will be the main image to load.
+
 The final image will be created using the requested size and quality (420x280 @ 80% quality in the ProgressiveFill example above)
 
 When the page loads, the tiny, low quality image will display by default, once the image scrolls or appears in the viewport, the larger image will load, thanks to IntersectionObserver.
@@ -50,8 +48,12 @@ When the page loads, the tiny, low quality image will display by default, once t
 ### Supported thumbnailing methods:
 
 + ProgressiveScaleWidth (ScaleWidth)
-+ ProgressiveFill / ProgressiveCroppedImage (Fill)
++ ProgressiveFill (Fill) (was ProgressiveCroppedImage)
 + ProgressivePad (Pad)
+
+### Deprecations
+
+To support Content Security Policies, the controller extension loading inline scripts and css plus related templates are now deprecated.
 
 ## Thanks
 
