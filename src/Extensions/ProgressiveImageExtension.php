@@ -1,21 +1,32 @@
 <?php
+
 namespace NSWDPC\ProgressiveImage;
 
 use Silverstripe\Assets\Image;
 use Silverstripe\Core\Config\Config;
 use Silverstripe\Core\Extension;
+use SilverStripe\View\ArrayData;
 use SilverStripe\View\ViewableData;
 use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\View\Requirements;
 
 /**
- * Extension provides methods to aid in progressive image loading techniques, e.g by being able to define quality at request time
+ * Extension provides methods to aid in progressive image loading techniques
+ * e.g by being able to define quality at request time
  * @author James Ellis <james.ellis@dpc.nsw.gov.au>
  */
 class ProgressiveImageExtension extends Extension
 {
-    private $default_quality = 80;// store default for reset post image processing
+
+    /**
+     * @var int
+     * Store default for reset post image processing
+     */
+    private $default_quality = 80;
 
     private $_cache_filter_style = null;
+
+    private static $requirements_completed = false;
 
     /**
      * Returns the current image backend
@@ -88,8 +99,12 @@ class ProgressiveImageExtension extends Extension
      * @param int $height
      * @param ViewableData $tiny a version of $image that is tiny
      */
-    private function AsTag(ViewableData $image, $width, $height, ViewableData $tiny)
+    public function getProgressiveTag(ViewableData $image, $width = null, $height = null, ViewableData $tiny)
     {
+        if (!$width && !$height) {
+            return null;
+        }
+
         $final_url = $image->getURL();
         if ($height >  0 && $width > 0) {
             $padding_value = round(($height / $width) * 100, 2);
@@ -105,9 +120,84 @@ class ProgressiveImageExtension extends Extension
             'TinyURL' => $tiny_url,
             'Style' => $this->getFilterStyle()
         ];
-        $tag = $this->owner->renderWith('ProgressiveImage', $data);
+
+        // push data into image
+        $tag = ArrayData::create($data)->renderWith('NSWDPC/ProgressiveImage/ProgressiveImage');
         $field = DBField::create_field('HTMLText', $tag);
+
+        // push requirements out
+        $this->owner->loadProgressiveImageRequirements();
+
         return $field;
+    }
+
+    public static function getHashAlgo()
+    {
+        return "sha256";
+    }
+
+    public static function getIntegrityHash($contents)
+    {
+        $hash = self::getHashAlgo();
+        return "{$hash}-" . base64_encode(hash($hash, $contents, true));
+    }
+
+    /**
+     * Load requirements via the Requirements API
+     * @return void
+     */
+    public function loadProgressiveImageRequirements()
+    {
+        if (self::$requirements_completed) {
+            return;
+        }
+
+        $css = self::get_progressive_image_style();
+        $css_base64 = base64_encode($css);
+        $css_uri = 'data:text/css;charset=utf-8;base64,' . $css_base64;
+        $css_integrity = self::getIntegrityHash($css);
+
+        $script = self::get_progressive_image_script();
+        $script_base64 = base64_encode($script);
+        $script_uri = 'data:application/javascript;charset=utf-8;base64,' . base64_encode($script);
+        $script_integrity = self::getIntegrityHash($script);
+
+        Requirements::css(
+            $css_uri,
+            'screen',
+            [
+                'integrity' => $css_integrity,
+                'crossorigin' => 'anonymous'
+            ]
+        );
+
+        Requirements::javascript(
+            $script_uri,
+            [
+                'integrity' => $script_integrity,
+                'crossorigin' => 'anonymous'
+            ]
+        );
+
+        self::$requirements_completed = true;
+    }
+
+    /**
+     * Return custom CSS
+     */
+    public static function get_progressive_image_style()
+    {
+        $content = trim(ArrayData::create()->renderWith('NSWDPC/ProgressiveImage/Style')->forTemplate());
+        return $content;
+    }
+
+    /**
+     * Return custom JS
+     */
+    public static function get_progressive_image_script()
+    {
+        $content = trim(ArrayData::create()->renderWith('NSWDPC/ProgressiveImage/Script')->forTemplate());
+        return $content;
     }
 
     /**
@@ -120,6 +210,7 @@ class ProgressiveImageExtension extends Extension
     {
         $quality = $this->setQuality($quality);
         $image = $this->owner->ScaleWidth($width);
+        $height = $image->getHeight();
         $backend = $this->getBackend();
         if (method_exists($backend, 'ResetFilters')) {
             $backend->ResetFilters();
@@ -128,11 +219,10 @@ class ProgressiveImageExtension extends Extension
         if ($as_tag) {
             // Rendering as a tag... create the tiny version
             $tiny_width = round($width / 10);
+            $tiny_height = round($height / 10);
             $tiny_quality = 1;
             $tiny = $this->ProgressiveScaleWidth($tiny_width, $tiny_quality, false);
-
-            $tag = $this->AsTag($image, $width, 0, $tiny);
-            return $tag;
+            return $this->getProgressiveTag($image, $width, $height, $tiny);
         } else {
             return $image;
         }
@@ -160,9 +250,7 @@ class ProgressiveImageExtension extends Extension
             $tiny_width = round($width / 10);
             $tiny_quality = 1;
             $tiny = $this->ProgressiveFill($tiny_width, $tiny_height, $tiny_quality, false);
-
-            $tag = $this->AsTag($image, $width, $height, $tiny);
-            return $tag;
+            return $this->getProgressiveTag($image, $width, $height, $tiny);
         } else {
             return $image;
         }
@@ -192,9 +280,8 @@ class ProgressiveImageExtension extends Extension
             $tiny_width = round($width / 10);
             $tiny_quality = 1;
             $tiny = $this->ProgressivePad($tiny_width, $tiny_height, $backgroundColor, $transparencyPercent, $tiny_quality, false);
-
-            $tag = $this->AsTag($image, $width, $height, $tiny);
-            return $tag;
+            return $this->getProgressiveTag($image, $width, $height, $tiny);
+            ;
         } else {
             return $image;
         }
