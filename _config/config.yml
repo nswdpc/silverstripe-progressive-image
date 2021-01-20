@@ -6,7 +6,3 @@ Silverstripe\Assets\Image:
   extensions:
     # image extensions
     - 'NSWDPC\ProgressiveImage\ProgressiveImageExtension'
-PageController:
-  extensions:
-    # push script and style requirements
-    - 'NSWDPC\ProgressiveImage\ProgressiveImageControllerExtension'

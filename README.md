@@ -51,9 +51,9 @@ When the page loads, the tiny, low quality image will display by default, once t
 + ProgressiveFill (Fill) (was ProgressiveCroppedImage)
 + ProgressivePad (Pad)
 
-### Deprecations
+### Inline script and css removal
 
-To support Content Security Policies, the controller extension loading inline scripts and css plus related templates are now deprecated.
+To support Content Security Policies (CSP), the controller extension loading inline scripts and css plus related templates have been removed.
 
 ## Thanks
 
