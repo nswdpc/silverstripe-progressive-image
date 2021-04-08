@@ -1,8 +1,10 @@
 # Progressive Image Loader for Silverstripe
 
-This module does progressive image loading, based partly on Medium image loading techniques, using IntersectionObserver (v1)
+This module does progressive image loading using IntersectionObserver (v1).
 
 [Browser support for IntersectionObserver](https://caniuse.com/#search=intersectionobserver) (currently all the important ones).
+
+While the module does add `loading="lazy"` to img tags, this module provides a polyfill for browsers that [don't yet support image lazy loading natively](https://caniuse.com/?search=loading%3Dlazy) (tl;dr Safari).
 
 ## Installation
 
@@ -55,9 +57,12 @@ When the page loads, the tiny, low quality image will display by default, once t
 
 ### Supported thumbnailing methods:
 
-+ ProgressiveScaleWidth (ScaleWidth)
-+ ProgressiveFill (Fill) (was ProgressiveCroppedImage)
-+ ProgressivePad (Pad)
++ ProgressiveScaleWidth - ScaleWidth from [silverstripe/assets](https://github.com/silverstripe/silverstripe-assets)
++ ProgressiveFill - Fill from [silverstripe/assets](https://github.com/silverstripe/silverstripe-assets) (was ProgressiveCroppedImage)
++ ProgressivePad - Pad from [silverstripe/assets](https://github.com/silverstripe/silverstripe-assets)
++ ProgressiveFillMax - FillMax from [silverstripe/assets](https://github.com/silverstripe/silverstripe-assets)
++ ProgressiveFocusFillMax - FocusFillMax from [jonom/focuspoint](https://github.com/jonom/silverstripe-focuspoint)
++ ProgressiveFocusFill - FocusFill from [jonom/focuspoint](https://github.com/jonom/silverstripe-focuspoint)
 
 ### Inline script and css removal
 
