@@ -183,6 +183,14 @@ class ProgressiveImageExtension extends Extension
     }
 
     /**
+     * Set self::$requirements_completed, causes requirements to be re-required
+     * Used by tests
+     */
+    public function resetRequirementsCompleted() {
+        self::$requirements_completed = false;
+    }
+
+    /**
      * Return custom CSS
      */
     public static function get_progressive_image_style()
