@@ -4,6 +4,14 @@ This module does progressive image loading, based partly on Medium image loading
 
 [Browser support for IntersectionObserver](https://caniuse.com/#search=intersectionobserver) (currently all the important ones).
 
+## Installation
+
+The only supported method of installing this module is via composer
+
+```shell
+composer require nswdpc/silverstripe-progressive-image
+```
+
 ## Usage
 
 Call the thumbnail rendering methods directly within your template:
@@ -59,6 +67,26 @@ To support Content Security Policies (CSP), the controller extension loading inl
 
 + Some inspiration provided by: https://jmperezperez.com/medium-image-progressive-loading-placeholder/
 
-## Licence
+## License
 
-BSD-3 Clause
+[BSD-3-Clause](./LICENSE.md)
+
+## Maintainers
+
++ [dpcdigital@NSWDPC:~$](https://dpc.nsw.gov.au)
+
+## Bugtracker
+
+We welcome bug reports, pull requests and feature requests on the Github Issue tracker for this project.
+
+Please review the [code of conduct](./code-of-conduct.md) prior to opening a new issue.
+
+## Security
+
+If you have found a security issue with this module, please email digital[@]dpc.nsw.gov.au in the first instance, detailing your findings.
+
+## Development and contribution
+
+If you would like to make contributions to the module please ensure you raise a pull request and discuss with the module maintainers.
+
+Please review the [code of conduct](./code-of-conduct.md) prior to completing a pull request.
