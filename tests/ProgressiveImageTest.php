@@ -40,6 +40,12 @@ class ProgressiveImageTest extends SapphireTest
 
         $this->assertTrue($image instanceof Image, "Image is not the correct type");
 
+        $width = $image->getWidth();
+        $height = $image->getHeight();
+
+        $this->assertEquals(1920, $width);
+        $this->assertEquals(1280, $height);
+
         $pad = $image->ProgressivePad(100, 100, 'FF0000', 0, 90, true);
         $pad_final = $image->Pad(100, 100, 'FF0000', 0);
         $pad_final_link =$pad_final->Link();
@@ -56,8 +62,51 @@ class ProgressiveImageTest extends SapphireTest
         $this->assertTrue(strpos($pad, "data-final=\"{$pad_final_link}\"") !== false, "Final Link not in image ProgressivePad tag");
         $this->assertTrue(strpos($scale_width, "data-final=\"{$scale_width_final_link}\"") !== false, "Final Link not in image ProgressiveScaleWidth tag");
 
+    }
+
+    public function testFocusPoint() {
+
+        $image = $this->objFromFixture(Image::class, 'image1');
+        $image->resetRequirementsCompleted();
+
+        $this->assertTrue($image instanceof Image, "Image is not the correct type");
+
+        $width = $image->getWidth();
+        $height = $image->getHeight();
+
+        $this->assertEquals(1920, $width);
+        $this->assertEquals(1280, $height);
+
+        $focusFill = $image->ProgressiveFocusFill(1800, 1400, 90, true);
+        $focusFillFinal = $image->FocusFill(1800, 1400);
+        $focusFillFinalLink = $focusFillFinal->Link();
+        $this->assertTrue(strpos($focusFill, "data-final=\"{$focusFillFinalLink}\"") !== false, "Final Link not in image ProgressiveFocusFill tag");
+
+        // will upscale height to 1400
+        $this->assertEquals(1800, $focusFillFinal->getWidth());
+        $this->assertEquals(1400, $focusFillFinal->getHeight());
+
+        $focusFillMax = $image->ProgressiveFocusFillMax(1800,1400, 90, true);
+        $focusFillMaxFinal = $image->FocusFillMax(1800, 1400);
+        $focusFillMaxFinalLink = $focusFillMaxFinal->Link();
+
+        // will retain height at 1280, downscaling width
+        $this->assertEquals(1646, $focusFillMaxFinal->getWidth());
+        $this->assertEquals(1280, $focusFillMaxFinal->getHeight());
+        $this->assertTrue(strpos($focusFillMax, "data-final=\"{$focusFillMaxFinalLink}\"") !== false, "Final Link not in image ProgressiveFocusFillMax tag");
+
+    }
+
+    public function testBackend() {
+
+        $image = $this->objFromFixture(Image::class, 'image1');
+        $image->resetRequirementsCompleted();
+
+        $tag = $image->ProgressiveScaleWidth(100, 90, true);
+
         $backend = Requirements::backend();
         $js = $backend->getJavascript();
+
         $css = $backend->getCSS();
 
         // expected sha256 hashes

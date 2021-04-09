@@ -183,6 +183,14 @@ class ProgressiveImageExtension extends Extension
     }
 
     /**
+     * Set self::$requirements_completed, causes requirements to be re-required
+     * Used by tests
+     */
+    public function resetRequirementsCompleted() {
+        self::$requirements_completed = false;
+    }
+
+    /**
      * Return custom CSS
      */
     public static function get_progressive_image_style()
@@ -250,6 +258,90 @@ class ProgressiveImageExtension extends Extension
             $tiny_width = round($width / 10);
             $tiny_quality = 1;
             $tiny = $this->ProgressiveFill($tiny_width, $tiny_height, $tiny_quality, false);
+            return $this->getProgressiveTag($image, $width, $height, $tiny);
+        } else {
+            return $image;
+        }
+    }
+
+    /**
+     * Fill to width and height with quality, without upsampling
+     * @param int $width
+     * @param int $height
+     * @param int $quality quality of larger image
+     * @param boolean $as_tag
+     */
+    public function ProgressiveFillMax($width, $height, $quality = 80, $as_tag = true)
+    {
+        $quality = $this->setQuality($quality);
+        $image = $this->owner->FillMax($width, $height);
+        $backend = $this->getBackend();
+        if (method_exists($backend, 'ResetFilters')) {
+            $backend->ResetFilters();
+        }
+        $this->resetQuality($quality);
+        if ($as_tag) {
+            // Rendering as a tag... create the tiny version
+            $tiny_height = round($height / 10);
+            $tiny_width = round($width / 10);
+            $tiny_quality = 1;
+            $tiny = $this->ProgressiveFillMax($tiny_width, $tiny_height, $tiny_quality, false);
+            return $this->getProgressiveTag($image, $width, $height, $tiny);
+        } else {
+            return $image;
+        }
+    }
+
+    /**
+     * Fill to width and height with quality, *without* upscaling, using jonom/focuspoint
+     * @param int $width
+     * @param int $height
+     * @param int $quality quality of larger image
+     * @param boolean $as_tag
+     */
+    public function ProgressiveFocusFillMax($width, $height, $quality = 80, $as_tag = true)
+    {
+        $quality = $this->setQuality($quality);
+        $image = $this->owner->FocusFillMax($width, $height);
+        $backend = $this->getBackend();
+        if (method_exists($backend, 'ResetFilters')) {
+            $backend->ResetFilters();
+        }
+        $this->resetQuality($quality);
+        if ($as_tag) {
+            // Rendering as a tag... create the tiny version
+            $tiny_height = round($height / 10);
+            $tiny_width = round($width / 10);
+            $tiny_quality = 1;
+            $tiny = $this->ProgressiveFocusFillMax($tiny_width, $tiny_height, $tiny_quality, false);
+            return $this->getProgressiveTag($image, $width, $height, $tiny);
+        } else {
+            return $image;
+        }
+    }
+
+    /**
+     * Fill to width and height with quality, with upscaling, using jonom/focuspoint
+     * @param int $width
+     * @param int $height
+     * @param int $quality quality of larger image
+     * @param boolean $as_tag
+     */
+    public function ProgressiveFocusFill($width, $height, $quality = 80, $as_tag = true)
+    {
+        $quality = $this->setQuality($quality);
+        $image = $this->owner->FocusFill($width, $height, true);
+        $backend = $this->getBackend();
+        if (method_exists($backend, 'ResetFilters')) {
+            $backend->ResetFilters();
+        }
+        $this->resetQuality($quality);
+        if ($as_tag) {
+            // Rendering as a tag... create the tiny version
+            $tiny_height = round($height / 10);
+            $tiny_width = round($width / 10);
+            $tiny_quality = 1;
+            $tiny = $this->ProgressiveFocusFill($tiny_width, $tiny_height, $tiny_quality, false);
             return $this->getProgressiveTag($image, $width, $height, $tiny);
         } else {
             return $image;
