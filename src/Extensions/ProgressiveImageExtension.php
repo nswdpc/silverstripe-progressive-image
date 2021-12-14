@@ -201,10 +201,15 @@ class ProgressiveImageExtension extends Extension
 
     /**
      * Return custom JS
+     * @param float $threshold between 0 and 0.99 (1 doesn't seem to work). Default to 0.
+     * See: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#intersection_observer_options
      */
-    public static function get_progressive_image_script()
+    public static function get_progressive_image_script(float $threshold = 0)
     {
-        $content = trim(ArrayData::create()->renderWith('NSWDPC/ProgressiveImage/Script')->forTemplate());
+        $data = [
+            'Threshold' => $threshold
+        ];
+        $content = trim(ArrayData::create($data)->renderWith('NSWDPC/ProgressiveImage/Script')->forTemplate());
         return $content;
     }
 
