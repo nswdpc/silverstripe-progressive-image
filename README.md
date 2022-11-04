@@ -1,5 +1,15 @@
 # Progressive Image Loader for Silverstripe
 
+## Archiving soon
+
+> 🪦 As all evergreen browsers now support the loading="lazy" attribute, no further feature updates will be made to this module.
+>
+> We recommend uninstalling this module and replacing any progessive image variables with the standard Silverstripe equivalent in your project templates.
+>
+> More: https://caniuse.com/loading-lazy-attr
+
+## Features
+
 This module does progressive image loading using IntersectionObserver (v1).
 
 [Browser support for IntersectionObserver](https://caniuse.com/#search=intersectionobserver) (currently all the important ones).
