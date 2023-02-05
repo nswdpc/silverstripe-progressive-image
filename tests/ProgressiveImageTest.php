@@ -22,7 +22,7 @@ class ProgressiveImageTest extends SapphireTest
 
     protected static $fixture_file = 'ProgressiveImageTest.yml';
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
         TestAssetStore::activate('data');
