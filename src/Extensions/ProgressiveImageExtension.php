@@ -99,7 +99,7 @@ class ProgressiveImageExtension extends Extension
      * @param int $height
      * @param ViewableData $tiny a version of $image that is tiny
      */
-    public function getProgressiveTag(ViewableData $image, $width = null, $height = null, ViewableData $tiny)
+    public function getProgressiveTag(ViewableData $image, $width, $height, ViewableData $tiny)
     {
         if (!$width && !$height) {
             return null;
