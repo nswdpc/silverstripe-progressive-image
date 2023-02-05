@@ -159,7 +159,7 @@ class ProgressiveImageExtension extends Extension
 
         $script = self::get_progressive_image_script();
         $script_base64 = base64_encode($script);
-        $script_uri = 'data:application/javascript;charset=utf-8;base64,' . base64_encode($script);
+        $script_uri = 'data:application/javascript;charset=utf-8;base64,' . $script_base64;
         $script_integrity = self::getIntegrityHash($script);
 
         Requirements::css(
