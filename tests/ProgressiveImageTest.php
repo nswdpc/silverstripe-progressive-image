@@ -61,11 +61,10 @@ class ProgressiveImageTest extends SapphireTest
         $this->assertTrue(strpos($fill, "data-final=\"{$fill_final_link}\"") !== false, "Final Link not in image ProgressiveFill tag");
         $this->assertTrue(strpos($pad, "data-final=\"{$pad_final_link}\"") !== false, "Final Link not in image ProgressivePad tag");
         $this->assertTrue(strpos($scale_width, "data-final=\"{$scale_width_final_link}\"") !== false, "Final Link not in image ProgressiveScaleWidth tag");
-
     }
 
-    public function testFocusPoint() {
-
+    public function testFocusPoint()
+    {
         $image = $this->objFromFixture(Image::class, 'image1');
         $image->resetRequirementsCompleted();
 
@@ -86,7 +85,7 @@ class ProgressiveImageTest extends SapphireTest
         $this->assertEquals(1800, $focusFillFinal->getWidth());
         $this->assertEquals(1400, $focusFillFinal->getHeight());
 
-        $focusFillMax = $image->ProgressiveFocusFillMax(1800,1400, 90, true);
+        $focusFillMax = $image->ProgressiveFocusFillMax(1800, 1400, 90, true);
         $focusFillMaxFinal = $image->FocusFillMax(1800, 1400);
         $focusFillMaxFinalLink = $focusFillMaxFinal->Link();
 
@@ -94,11 +93,10 @@ class ProgressiveImageTest extends SapphireTest
         $this->assertEquals(1646, $focusFillMaxFinal->getWidth());
         $this->assertEquals(1280, $focusFillMaxFinal->getHeight());
         $this->assertTrue(strpos($focusFillMax, "data-final=\"{$focusFillMaxFinalLink}\"") !== false, "Final Link not in image ProgressiveFocusFillMax tag");
-
     }
 
-    public function testBackend() {
-
+    public function testBackend()
+    {
         $image = $this->objFromFixture(Image::class, 'image1');
         $image->resetRequirementsCompleted();
 

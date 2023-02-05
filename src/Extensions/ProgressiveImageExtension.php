@@ -186,7 +186,8 @@ class ProgressiveImageExtension extends Extension
      * Set self::$requirements_completed, causes requirements to be re-required
      * Used by tests
      */
-    public function resetRequirementsCompleted() {
+    public function resetRequirementsCompleted()
+    {
         self::$requirements_completed = false;
     }
 
