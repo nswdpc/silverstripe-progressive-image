@@ -108,7 +108,7 @@ class ProgressiveImageTest extends SapphireTest
         $css = $backend->getCSS();
 
         // expected sha256 hashes
-        $expected_hash_js = "sha256-8VDCn/f0G2aDnEbz+Wo0b33V44if0WaKA1EOwnDG0tM=";
+        $expected_hash_js = "sha256-Y8Oyqph6gL6l8YvrzhkPD34Db01PteYNAUEzln3phBk=";
         $expected_hash_css  = "sha256-WrXqmkKGIbIcuZIbIkCqHwMooOXuNf6c1ImeMSYW/B4=";
 
         $item = current($js);
