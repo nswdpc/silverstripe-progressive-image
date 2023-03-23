@@ -22,7 +22,7 @@ class ProgressiveImageTest extends SapphireTest
 
     protected static $fixture_file = 'ProgressiveImageTest.yml';
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
         TestAssetStore::activate('data');
@@ -61,11 +61,10 @@ class ProgressiveImageTest extends SapphireTest
         $this->assertTrue(strpos($fill, "data-final=\"{$fill_final_link}\"") !== false, "Final Link not in image ProgressiveFill tag");
         $this->assertTrue(strpos($pad, "data-final=\"{$pad_final_link}\"") !== false, "Final Link not in image ProgressivePad tag");
         $this->assertTrue(strpos($scale_width, "data-final=\"{$scale_width_final_link}\"") !== false, "Final Link not in image ProgressiveScaleWidth tag");
-
     }
 
-    public function testFocusPoint() {
-
+    public function testFocusPoint()
+    {
         $image = $this->objFromFixture(Image::class, 'image1');
         $image->resetRequirementsCompleted();
 
@@ -86,7 +85,7 @@ class ProgressiveImageTest extends SapphireTest
         $this->assertEquals(1800, $focusFillFinal->getWidth());
         $this->assertEquals(1400, $focusFillFinal->getHeight());
 
-        $focusFillMax = $image->ProgressiveFocusFillMax(1800,1400, 90, true);
+        $focusFillMax = $image->ProgressiveFocusFillMax(1800, 1400, 90, true);
         $focusFillMaxFinal = $image->FocusFillMax(1800, 1400);
         $focusFillMaxFinalLink = $focusFillMaxFinal->Link();
 
@@ -94,11 +93,10 @@ class ProgressiveImageTest extends SapphireTest
         $this->assertEquals(1646, $focusFillMaxFinal->getWidth());
         $this->assertEquals(1280, $focusFillMaxFinal->getHeight());
         $this->assertTrue(strpos($focusFillMax, "data-final=\"{$focusFillMaxFinalLink}\"") !== false, "Final Link not in image ProgressiveFocusFillMax tag");
-
     }
 
-    public function testBackend() {
-
+    public function testBackend()
+    {
         $image = $this->objFromFixture(Image::class, 'image1');
         $image->resetRequirementsCompleted();
 
@@ -110,7 +108,7 @@ class ProgressiveImageTest extends SapphireTest
         $css = $backend->getCSS();
 
         // expected sha256 hashes
-        $expected_hash_js = "sha256-8VDCn/f0G2aDnEbz+Wo0b33V44if0WaKA1EOwnDG0tM=";
+        $expected_hash_js = "sha256-Y8Oyqph6gL6l8YvrzhkPD34Db01PteYNAUEzln3phBk=";
         $expected_hash_css  = "sha256-WrXqmkKGIbIcuZIbIkCqHwMooOXuNf6c1ImeMSYW/B4=";
 
         $item = current($js);

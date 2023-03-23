@@ -99,7 +99,7 @@ class ProgressiveImageExtension extends Extension
      * @param int $height
      * @param ViewableData $tiny a version of $image that is tiny
      */
-    public function getProgressiveTag(ViewableData $image, $width = null, $height = null, ViewableData $tiny)
+    public function getProgressiveTag(ViewableData $image, $width, $height, ViewableData $tiny)
     {
         if (!$width && !$height) {
             return null;
@@ -159,7 +159,7 @@ class ProgressiveImageExtension extends Extension
 
         $script = self::get_progressive_image_script();
         $script_base64 = base64_encode($script);
-        $script_uri = 'data:application/javascript;charset=utf-8;base64,' . base64_encode($script);
+        $script_uri = 'data:application/javascript;charset=utf-8;base64,' . $script_base64;
         $script_integrity = self::getIntegrityHash($script);
 
         Requirements::css(
@@ -186,7 +186,8 @@ class ProgressiveImageExtension extends Extension
      * Set self::$requirements_completed, causes requirements to be re-required
      * Used by tests
      */
-    public function resetRequirementsCompleted() {
+    public function resetRequirementsCompleted()
+    {
         self::$requirements_completed = false;
     }
 
